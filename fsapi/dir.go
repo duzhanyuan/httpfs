@@ -74,7 +74,7 @@ func (d *Dir) Lookup(ctx context.Context, name string) (fs.Node, error) {
 			return d.fs.newDir(path, stats.Mode()), nil
 		case stats.Mode()&os.ModeSymlink == os.ModeSymlink:
 			//log.Printf(" -> Symlink\n")
-			return d.fs.newDir(path, stats.Mode()), nil
+			return d.fs.newFile(path, stats.Mode()), nil
 		case stats.Mode().IsRegular():
 			//log.Printf(" -> File\n")
 			return d.fs.newFile(path, stats.Mode()), nil

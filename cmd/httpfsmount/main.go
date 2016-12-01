@@ -3,7 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 
@@ -31,10 +30,6 @@ func debugLog(msg interface{}) {
 func main() {
 	flag.Usage = usage
 	flag.Parse()
-
-	if !*debug {
-		log.SetOutput(ioutil.Discard)
-	}
 
 	if *mount == "" || *url == "" {
 		usage()
