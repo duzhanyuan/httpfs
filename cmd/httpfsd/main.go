@@ -29,18 +29,20 @@ func Log(handler http.Handler) http.Handler {
 
 func main() {
 	var (
-		config  string
-		tls     bool
-		tlscert string
-		tlskey  string
-		debug   bool
-		bind    string
-		root    string
+		config   string
+		tls      bool
+		tlscert  string
+		tlskey   string
+		readonly bool
+		debug    bool
+		bind     string
+		root     string
 	)
 
 	flag.StringVar(&config, "config", "", "config file")
 	flag.BoolVar(&tls, "tls", false, "Use TLS")
 	flag.BoolVar(&debug, "debug", false, "set debug logging")
+	flag.BoolVar(&readonly, "readonly", false, "set read-only mode")
 	flag.StringVar(&tlscert, "tlscert", "server.crt", "server certificate")
 	flag.StringVar(&tlskey, "tlskey", "server.key", "server key")
 	flag.StringVar(&bind, "bind", "0.0.0.0:8000", "[int]:<port> to bind to")
@@ -51,7 +53,7 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 
-	http.Handle("/", webapi.FileServer(root))
+	http.Handle("/", webapi.FileServer(root, readonly))
 
 	var handler http.Handler
 

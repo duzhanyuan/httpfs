@@ -59,10 +59,11 @@ func addStatHeaders(w http.ResponseWriter, stat os.FileInfo) {
 }
 
 // FileServer ...
-func FileServer(dir string) http.HandlerFunc {
+func FileServer(dir string, readonly bool) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		urlPath := path.Clean(r.URL.Path)
 		localPath := path.Join(dir, urlPath)
+
 		switch r.Method {
 		case "HEAD":
 			d, err := os.Lstat(localPath)
@@ -77,6 +78,11 @@ func FileServer(dir string) http.HandlerFunc {
 
 			return
 		case "DELETE":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			err := os.RemoveAll(localPath)
 			if err != nil {
 				//log.Printf("E: os.RemoveAll('%s') -> %s\n", localPath, err)
@@ -87,6 +93,11 @@ func FileServer(dir string) http.HandlerFunc {
 
 			return
 		case "PUT":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			query := r.URL.Query()
 
 			perm := os.FileMode(
@@ -189,6 +200,11 @@ func FileServer(dir string) http.HandlerFunc {
 			}
 			return
 		case "CHMOD":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			mode := utils.SafeParseInt(r.URL.Query().Get("mode"), 0)
 
 			err := os.Chmod(localPath, os.FileMode(mode))
@@ -201,6 +217,11 @@ func FileServer(dir string) http.HandlerFunc {
 
 			return
 		case "MKDIR":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			perm := os.FileMode(
 				utils.SafeParseInt(
 					r.URL.Query().Get("perm"),
@@ -219,6 +240,11 @@ func FileServer(dir string) http.HandlerFunc {
 
 			return
 		case "LINK":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			nameReq := r.URL.Query().Get("name")
 			if nameReq == "" {
 				//log.Printf(" E: No ?name= specified for LINK request\n")
@@ -258,6 +284,11 @@ func FileServer(dir string) http.HandlerFunc {
 
 			return
 		case "RENAME":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			nameReq := r.URL.Query().Get("name")
 			if nameReq == "" {
 				//log.Printf("E: No ?name= specified for RENAME request\n")
@@ -278,6 +309,11 @@ func FileServer(dir string) http.HandlerFunc {
 
 			return
 		case "TRUNCATE":
+			if readonly {
+				http.Error(w, "Forbidden", http.StatusForbidden)
+				return
+			}
+
 			sizeReq := r.URL.Query().Get("size")
 			if sizeReq == "" {
 				//log.Printf("E: No ?size= specified for TRUNCATE request\n")
