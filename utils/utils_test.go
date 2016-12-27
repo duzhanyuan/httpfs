@@ -11,6 +11,22 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+func TestReadDirNonExistent(t *testing.T) {
+	_, err := utils.ReadDir("imalittle-0xDEADBEEF-teapot")
+	assert.NotNil(t, err)
+}
+
+func TestReadDirEmpty(t *testing.T) {
+	assert := assert.New(t)
+
+	tmp := tempdir.New(t)
+	defer tmp.Cleanup()
+
+	items, err := utils.ReadDir("imalittle-0xDEADBEEF-teapot")
+	assert.Empty(items)
+	assert.NotNil(t, err)
+}
+
 func TestReadDirFile(t *testing.T) {
 	assert := assert.New(t)
 
@@ -33,6 +49,27 @@ func TestReadDirFile(t *testing.T) {
 	assert.NotZero(item.Mode, 0)
 	assert.False(item.IsDir)
 	assert.NotZero(item.ModTime)
+}
+
+func TestFileSize(t *testing.T) {
+	assert := assert.New(t)
+
+	tmp := tempdir.New(t)
+	defer tmp.Cleanup()
+
+	f, err := os.Create(path.Join(tmp.Path, "hello.txt"))
+	assert.Nil(err)
+
+	f.WriteString("Hello World!")
+	f.Close()
+
+	f, err = os.Open(path.Join(tmp.Path, "hello.txt"))
+	assert.Nil(err)
+	defer f.Close()
+
+	size, err := utils.FileSize(f)
+	assert.Nil(err)
+	assert.EqualValues(size, 12)
 }
 
 var booltests = []struct {
@@ -113,4 +150,9 @@ func TestSafeStatSize(t *testing.T) {
 
 	size := utils.SafeStatSize(path.Join(tmp.Path, "hello.txt"))
 	assert.EqualValues(size, 12)
+}
+
+func TestSafeStatSizeNonExistent(t *testing.T) {
+	size := utils.SafeStatSize("imalittle-0xDEADBEEF-teapot")
+	assert.EqualValues(t, size, 0)
 }
