@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/prologic/httpfs.svg)](https://travis-ci.org/prologic/httpfs)
 
+[![Coverage](https://coveralls.io/repos/prologic/httpfs/badge.png)](https://coveralls.io/r/prologic/httpfs)
+
 httpfs is a cross-platform HTTP backed File System implemented using FUSE.
 It provides a backend API over HTTP/HTTPS to provide most POSIX file system
 calls for a FUSE frontend that presents this API as what looks and feels like
