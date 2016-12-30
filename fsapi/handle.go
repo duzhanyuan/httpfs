@@ -47,6 +47,10 @@ func (h Handle) ReadAt(buf []byte, offset int64) (int, error) {
 	}
 
 	data, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		return 0, fuse.EIO
+	}
+
 	copy(buf, data)
 
 	return len(buf), nil
