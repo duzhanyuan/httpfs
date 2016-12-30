@@ -342,6 +342,5 @@ func FileServer(dir string, readonly bool) http.HandlerFunc {
 			http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
 			return
 		}
-		return
 	}
 }

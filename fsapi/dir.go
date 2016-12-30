@@ -40,16 +40,16 @@ func (d *Dir) Attr(ctx context.Context, o *fuse.Attr) error {
 }
 
 var ignoreNames = map[string]struct{}{
-	"DCIM":                                struct{}{},
-	"Backups.backupdb":                    struct{}{},
-	".Spotlight-V100":                     struct{}{},
-	"mach_kernel":                         struct{}{},
-	".metadata_never_index":               struct{}{},
-	".metadata_never_index_unless_rootfs": struct{}{},
-	".DS_Store":                           struct{}{},
-	".localized":                          struct{}{},
-	".hidden":                             struct{}{},
-	"._.":                                 struct{}{},
+	"DCIM":                                {},
+	"Backups.backupdb":                    {},
+	".Spotlight-V100":                     {},
+	"mach_kernel":                         {},
+	".metadata_never_index":               {},
+	".metadata_never_index_unless_rootfs": {},
+	".DS_Store":                           {},
+	".localized":                          {},
+	".hidden":                             {},
+	"._.":                                 {},
 }
 
 // Lookup ...
