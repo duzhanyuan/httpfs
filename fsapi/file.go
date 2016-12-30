@@ -146,6 +146,7 @@ func (f *File) Write(ctx context.Context, req *fuse.WriteRequest, resp *fuse.Wri
 
 var _ fs.NodeSetattrer = (*File)(nil)
 
+// Setattr ...
 func (f *File) Setattr(ctx context.Context, req *fuse.SetattrRequest, resp *fuse.SetattrResponse) error {
 	//log.Printf("file.Setattr(%s)\n", f.path)
 
