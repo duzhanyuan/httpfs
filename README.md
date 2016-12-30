@@ -1,7 +1,8 @@
 # httpfs
-
 [![Build Status](https://travis-ci.org/prologic/httpfs.svg)](https://travis-ci.org/prologic/httpfs)
-
+[![GoDoc](https://godoc.org/github.com/prologic/httpfs?status.svg)](https://godoc.org/github.com/prologic/httpfs)
+[![Wiki](https://img.shields.io/badge/docs-wiki-blue.svg)](https://github.com/prologic/httpfs/wiki)
+[![Go Report Card](https://goreportcard.com/badge/github.com/prologic/httpfs)](https://goreportcard.com/report/github.com/prologic/httpfs)
 [![Coverage](https://coveralls.io/repos/prologic/httpfs/badge.png)](https://coveralls.io/r/prologic/httpfs)
 
 httpfs is a cross-platform HTTP backed File System implemented using FUSE.
