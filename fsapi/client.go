@@ -205,7 +205,7 @@ func (c Client) Readdir(path string) ([]os.FileInfo, error) {
 						entries = append(entries, httpfstypes.Entry{
 							Name:    name,
 							IsDir:   a.Val[len(a.Val)-1] == '/',
-							ModTime: ParseTime(n.NextSibling).Unix(),
+							ModTime: 0, // ParseTime(n.NextSibling).Unix(),
 						})
 						break
 					}
